@@ -4,7 +4,7 @@ Titanium.UI.setBackgroundColor('#000');
 // create tab group
 var tabGroup = Titanium.UI.createTabGroup();
 
-
+var love;
 //
 // create base UI tab and root window
 //
@@ -21,7 +21,7 @@ var tab1 = Titanium.UI.createTab({
 var labelLove = Titanium.UI.createLabel({
 	color:'black',
 	text:'Love Calculator',
-	font:{fontSize:'15dp',fontFamily:'Helvetica Neue'},
+	font:{fontSize:'15dp',fontFamily:'Helvetica Neue',fontWeight:'bold'},
 	textAlign:'center',
 	width:'auto',
 	top:'5%'
@@ -57,20 +57,20 @@ calculate.addEventListener("click",function(e){
 		Ti.API.error('Bad Sever =>'+e.error);
 	};
 	 
-	xhr.open("POST","http://192.168.1.31/testing.php");//ADD your URL
-	xhr.setRequestHeader("content-type", "application/json");
-	var param={ "fname":uname,"sname":upass};
+	xhr.open("POST","http://love.myscribles.in/action/love-api.php");//ADD your URL
+	//xhr.setRequestHeader("content-type", "application/json");
+	var param={ 'fname':uname,'sname':upass};
 	 
 	Ti.API.info('Params'+JSON.stringify(param));
 	xhr.send(param);
 	 
 	xhr.onload = function(){
 		Ti.API.info('RAW ='+this.responseText);
-		alert(this.responseText);
 		if(this.status == '200'){
 			Ti.API.info('got my response, http status code ' + this.status);
 			if(this.readyState == 4){
 	  			var response=JSON.parse(this.responseText);
+	  			love = response.love;
 	  			Ti.API.info('Response = '+response);
 			}else{
 	  			alert('HTTP Ready State != 4');
